@@ -1,25 +1,26 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!, only: [:create]
+  before_action :set_movie, only: [:new, :create]
 
   def new
-
+    @review = Review.new
   end
 
   def create
-    @movie = fetch_movie(params[:movie_id])
-    puts "Movie HASH: #{@movie}"
 
-
-
-    @review = Review.create(review_params.merge(user_id: current_user.id , movie_id: @movie['id']))
-    @review.save
+    id=@movie['id']
+    puts "Movie ID IS::::: #{id}"
+    puts "user ID IS::::: #{current_user.id}"
+    @review = Review.create(review_params.merge(user_id: current_user.id, movie_id: id))
     if @review.save
-      redirect_to root_path, notice: 'Review was successfully created.'   #movie_path(params[:movie_id])
+      redirect_to @movie, notice: 'Review was successfully created.'
     else
       flash.now[:alert] = 'Review could not be saved.'
-      redirect_to @movie
+      puts @review.errors.full_messages
+      redirect_to root_path
     end
   end
+
 
   private
 
@@ -27,8 +28,12 @@ class ReviewsController < ApplicationController
     params.require(:review).permit(:description)
   end
 
+  def set_movie
+    @movie = fetch_movie(params[:movie_id])
+  end
+
   # Method to fetch movie details from API based on movie_id
   def fetch_movie(movie_id)
-    @movie = Tmdb::DetailService.execute(id: params[:movie_id])
+    Tmdb::DetailService.execute(id: movie_id)
   end
 end

@@ -1,0 +1,11 @@
+<!-- app/views/reviews/new.html.erb -->
+
+
+<%= form_with(model: @review, url: movie_reviews_path(@movie['id']), method: :post) do |form| %>
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+  
+  <%= form.submit 'Post' %>
+<% end %>
