@@ -1,33 +1,59 @@
+
+<%if @moviecreate.present? %>
 <div class="container mx-auto mt-2 flex flex-col lg:flex-row justify-center">
   <div class="lg:mr-10">
-    <%= image_tag("https://image.tmdb.org/t/p/w300#{@movie['poster_path']}", alt: @movie['title'], class: "mb-4") %>
+    <%= image_tag("https://image.tmdb.org/t/p/w300#{@moviecreate['poster_path']}", alt: @moviecreate['title'], class: "mb-4") %>
   </div>
   <div class="lg:w-1/2">
-    <h1 class="text-3xl font-bold mb-4"><%= @movie['title'] %></h1>
-    <p class="text-lg"><strong>Original Title:</strong> <%= @movie['original_title'] %></p>
-    <p class="text-lg"><strong>Release Date:</strong> <%= @movie['release_date'] %></p>
+    <h1 class="text-3xl font-bold mb-4"><%= @moviecreate['title'] %></h1>
+    <p class="text-lg"><strong>Original Title:</strong> <%= @moviecreate['original_title'] %></p>
+    <p class="text-lg"><strong>Release Date:</strong> <%= @moviecreate['release_date'] %></p>
     
-    <p class="text-lg"><strong>Popularity:</strong> <%= @movie['popularity'] %></p>
-    <p class="text-lg mt-8"><strong>Description:   </strong> <%= @movie['overview'] %></p>
+    <p class="text-lg"><strong>Popularity:</strong> <%= @moviecreate['popularity'] %></p>
+    <p class="text-lg mt-8"><strong>Description:   </strong> <%= @moviecreate['overview'] %></p>
   </div>
 </div>
 <div>
+  <%else%>
+  <div class="container mx-auto mt-2 flex flex-col lg:flex-row justify-center">
+  <div class="lg:mr-10">
+    <%= image_tag("https://image.tmdb.org/t/p/w300#{@movie.poster}", alt: @movie.title, class: "mb-4") %>
+  </div>
+  <div class="lg:w-1/2">
+    <h1 class="text-3xl font-bold mb-4"><%= @movie.title %></h1>
+    <p class="text-lg"><strong>Original Title:</strong> <%= @movie.original_title%></p>
+   
+    
+    <p class="text-lg"><strong>Popularity:</strong> <%= @movie.popularity %></p>
+    <p class="text-lg mt-8"><strong>Description:   </strong> <%= @movie.overview %></p>
+  </div>
+</div>
+<div>
+  <%end%>
 
 
 
+<%puts "Movie Create::::::::::: #{@movie}"%>
+
+<% if @movie.present? && @movie.reviews.present? %>
+  <% @movie.reviews.each do |review| %>
+    <div class="border border-gray-300 p-4 mb-4">
+      <p class="text-lg text-white font-semibold">Review:</p>
+      <p class="text-lg text-white"><%= review.description %></p>
+    </div>
+  <% end %>
+<% end %>
 
 
 
-
-  
-
-
- <%= simple_form_for Review.new, url: movie_reviews_path(movie_id: @movie['id']), method: :post do |f| %>
-
+ <%= simple_form_for Review.new, url: movie_reviews_path(movie_id: @movie&.mid || @moviecreate['id'] ), method: :post do |f| %>
   <%= f.input :description, label: 'Review', placeholder: 'Add a comment', label_html: {class: 'text-lg font-semibold'}, input_html: {class: "bg-gray-100 border border-gray-300 text-gray-800 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-500 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"} %>
-  <%puts "Movie ID: #{@movie['id']}"%>
+  
   <%= f.submit 'Post', class: "bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md mt-2" %>
 <% end %>
+
+
+
 
 
 

@@ -4,16 +4,25 @@ class ReviewsController < ApplicationController
   def create
     @movie = fetch_movie(params[:movie_id])
 
-    @movie = Movie.find_or_create_by(mid: @movie['id'], title: @movie['title'], original_title: @movie['original_title'], overview: @movie['overview'], poster: @movie['poster_path'], popularity: @movie['popularity'])
-    @review = current_user.reviews.build(review_params.merge(movie_id: @movie.id))
 
-  if @review.save
-    redirect_to movie_path(@movie.mid)
+
+    @moviecreate = Movie.find_by(mid: @movie['id']) || Movie.create(mid: @movie['id'], title: @movie['title'], original_title: @movie['original_title'], overview: @movie['overview'], poster: @movie['poster_path'], popularity: @movie['popularity'])
+    
+    @reviewcreate = current_user.reviews.build(review_params.merge(movie_id: @moviecreate.id))
+
+  if @reviewcreate.save
+    flash.now[:alert] = 'Review success.'
     else
     flash.now[:alert] = 'Review could not be saved.'
-    render 'movies/show'
+
   end
+  redirect_to movie_path(id: @moviecreate.mid)
   end
+
+
+
+
+
 
   private
 

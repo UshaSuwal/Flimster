@@ -11,6 +11,11 @@ class MoviesController < ApplicationController
 
 
   def show
-    @movie = Tmdb::DetailService.execute(id: params[:id])
+    @movie=Movie.find_by(mid: params[:id])
+    if @movie.nil?
+      @moviecreate = Tmdb::DetailService.execute(id: params[:id])
+    end
   end
+
+
 end
