@@ -12,10 +12,17 @@
   </div>
 </div>
 <div>
+
+
+
+
+
+
+
   
 
 
- <%= simple_form_for Review.new, url: movies_path(movie_id: @movie['id']), method: :post do |f| %>
+ <%= simple_form_for Review.new, url: movie_reviews_path(movie_id: @movie['id']), method: :post do |f| %>
 
   <%= f.input :description, label: 'Review', placeholder: 'Add a comment', label_html: {class: 'text-lg font-semibold'}, input_html: {class: "bg-gray-100 border border-gray-300 text-gray-800 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-500 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"} %>
   <%puts "Movie ID: #{@movie['id']}"%>
