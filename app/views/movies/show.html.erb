@@ -6,19 +6,22 @@
     <h1 class="text-3xl font-bold mb-4"><%= @movie['title'] %></h1>
     <p class="text-lg"><strong>Original Title:</strong> <%= @movie['original_title'] %></p>
     <p class="text-lg"><strong>Release Date:</strong> <%= @movie['release_date'] %></p>
-    <p class="text-lg"><strong>ID:</strong> <%= @movie['id'] %></p>
+    
     <p class="text-lg"><strong>Popularity:</strong> <%= @movie['popularity'] %></p>
-    <p class="text-lg mt-8"><strong>Description:</strong> <%= @movie['overview'] %></p>
+    <p class="text-lg mt-8"><strong>Description:   </strong> <%= @movie['overview'] %></p>
   </div>
 </div>
 <div>
   
 
 
-  <%= form_tag(new_movie_review_path(movie_id: @movie['id']), method: :get) do %>
-    <%= text_field_tag :description, params[:@movie], placeholder: 'Enter movie review', class: "rounded-l-lg p-4 border-t border-b border-l border-black text-gray-800 border-gray-200 bg-white focus:outline-none focus:border-blue-500 w-3/6", style: "height: 40px;" %>
-    <%= submit_tag 'Post', class: "px-6 py-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 mt-2" %>
-  <% end %>
+ <%= simple_form_for Review.new, url: movie_reviews_path(@movie['id']), method: :post do |f| %>
+
+  <%= f.input :description, label: 'Review', placeholder: 'Add a comment', label_html: {class: 'text-lg font-semibold'}, input_html: {class: "bg-gray-100 border border-gray-300 text-gray-800 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-500 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"} %>
+  <%puts "Movie ID: #{@movie['id']}"%>
+  <%= f.submit 'Post', class: "bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md mt-2" %>
+<% end %>
+
 
 
 </div>
