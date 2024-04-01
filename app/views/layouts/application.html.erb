@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flimster</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+  </head>
+
+  <body>
+
+    <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+
+
+       <%= render 'shared/nav'%>
+       <div class="bg-black min-h-screen text-white px-8 pt-32">
+
+    <%= yield %>
+  </body>
+</html>

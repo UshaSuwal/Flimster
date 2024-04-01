@@ -1,0 +1,39 @@
+<div class="bg-black min-h-screen text-white px-8 flex"> <!-- Changed to flex -->
+  <!-- Left side (search bar) -->
+  <div class="w-1/4">
+    <% if current_user %>
+      <div class="fixed group mt-20">
+        <h2 class="text-3xl font-bold mb-4">Find Movie</h2>
+
+        <%= form_tag(movies_path, method: :get) do %>
+          <%= text_field_tag :movie_title, params[:movie_title], placeholder: 'Enter movie title', class: "rounded-l-lg p-4 border-t border-b border-l border-black text-gray-800 border-gray-200 bg-white focus:outline-none focus:border-blue-500 w-3/6", style: "height: 40px;" %>
+          <%= submit_tag 'Search', class: "px-6 py-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 mt-2" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+  
+  <!-- Right side (movie display) -->
+  <div class="w-3/4 ml-8">
+    <% if @movies.any? %>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <% @movies.each do |movie| %>
+          <div class="relative group border rounded-lg overflow-hidden bg-gray-800 shadow-md transition-transform duration-300 transform hover:scale-105">
+            <% if movie['poster_path'].present? %>
+              <%= link_to movie_path(movie['id']), class: "block" do %>
+                <%= image_tag("https://image.tmdb.org/t/p/w500#{movie['poster_path']}", alt: movie['title'], class: "object-cover w-full h-48 sm:h-64") %>
+              <% end %>
+            <% end %>
+            <div class="p-4">
+              <%= link_to movie_path(movie['id']), class: "block text-lg font-semibold hover:text-blue-600" do %>
+                <%= movie['title'] %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="mt-4">No movies found</p>
+    <% end %>
+  </div>
+</div>
