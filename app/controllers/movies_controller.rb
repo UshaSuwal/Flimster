@@ -18,26 +18,27 @@ class MoviesController < ApplicationController
 
   def create
     @movie = fetch_movie(params[:movie_id])
-    puts "Movie Hash #{@movie}"
-    id=@movie['id']
-    puts "Movie ID IS::::: #{id}"
-    puts "user ID IS::::: #{current_user.id}"
-    @movie = Movie.create(mid: id ,title: @movie['title'], original_title: @movie['original_title'] , overview: @movie['overview'] , poster: @movie['poster_path'] , popularity: @movie['popularity'] )
-    if @movie.save
-      redirect_to @movie, notice: 'Review was successfully created.'
+
+    id = @movie['id']
+
+    
+    existing_movie = Movie.find_by(mid: id)
+
+    if existing_movie
+      redirect_to movie_path(existing_movie.mid), notice: 'Movie already exists in the database.'
     else
-      flash.now[:alert] = 'Review could not be saved.'
+      @movie = Movie.create(mid: id, title: @movie['title'], original_title: @movie['original_title'], overview: @movie['overview'], poster: @movie['poster_path'], popularity: @movie['popularity'])
 
-      redirect_to root_path
+      if @movie.save
+        redirect_to movie_path(@movie['mid']), notice: 'Movie was successfully created.'
+      else
+        flash.now[:alert] = 'Movie could not be saved.'
+        redirect_to root_path
+      end
     end
-
   end
 
-  # def set_movie
-  #   @movie = fetch_movie(params[:movie_id])
-  # end
 
-  # Method to fetch movie details from API based on movie_id
   def fetch_movie(movie_id)
     Tmdb::DetailService.execute(id: movie_id)
   end

@@ -8,6 +8,8 @@ class ReviewsController < ApplicationController
 
   def create
 
+    
+
     id=@movie['id']
     puts "Movie ID IS::::: #{id}"
     puts "user ID IS::::: #{current_user.id}"
