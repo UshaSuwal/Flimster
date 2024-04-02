@@ -5,7 +5,7 @@
       <h2 class="text-3xl font-bold mb-4" style="font-family: 'Cinzel', serif;">Find Movie</h2>
       <%= form_tag(movies_path, method: :get, class: "flex items-center") do %>
         <%= text_field_tag :movie_title, params[:movie_title], placeholder: 'Enter movie title', class: "rounded-l-lg p-4 border-t border-b border-l border-black text-gray-800 border-gray-200 bg-white focus:outline-none focus:border-blue-500 w-3/6 mr-2", style: "height: 40px;" %>
-        <%= button_tag type: "submit", class: "px-4 py-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600" do %>
+        <%= button_tag type: "submit", class: "px-4 py-2 bg-red-700 text-white rounded-r-lg hover:bg-red-600" do %>
           <i class="fas fa-search"></i> Search
         <% end %>
       <% end %>
