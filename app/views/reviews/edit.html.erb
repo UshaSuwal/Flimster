@@ -1,14 +1,16 @@
-<h1 class="text-2xl mb-4 font-bold">Edit Review</h1>
+<!-- Modal Overlay -->
+<div class="flex justify-center items-center z-50">
+  <!-- Modal Content -->
+  <div class="modal-content bg-gray-900 rounded-lg shadow-lg p-8 max-w-md">
+    <!-- Title -->
+    <h1 class="text-2xl mb-4 font-bold text-white">Edit Review</h1>
 
-<div class="md:w-[40%]">
-  <%= simple_form_for [@movie, @review], url: movie_review_path(@movie, @review), method: :patch do |f| %>
-    <%= f.input :description, label: 'Review', placeholder: 'edit a review...', label_html: {class: 'mt-4'}, input_html: {class: 'mt-2 md:max-w-[50%]'} %>
-    <%= f.submit 'Update', class: 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800' %>
-  <% end %>
+    <!-- Form -->
+    <div>
+      <%= simple_form_for [@movie, @review], url: movie_review_path(@movie, @review), method: :patch do |f| %>
+        <%= f.input :description, label: 'Review', placeholder: 'edit a review...', label_html: {class: 'mt-4 text-white'}, input_html: {class: 'mt-2 w-full bg-gray-800 text-white border border-gray-600 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 ease-in-out'} %>
+        <%= f.submit 'Update', class: 'text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-4 w-full transition duration-300 ease-in-out focus:outline-none' %>
+      <% end %>
+    </div>
+  </div>
 </div>
-
-
-
-
-
-

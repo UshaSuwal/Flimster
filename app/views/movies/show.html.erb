@@ -1,55 +1,78 @@
 <% if @moviecreate.present? %>
-<div class="container mx-auto mt-8 flex flex-col lg:flex-row justify-center items-center space-x-8">
+<div class="container mx-auto flex flex-col lg:flex-row justify-center items-center space-x-8">
   <div class="lg:mr-10">
     <%= image_tag("https://image.tmdb.org/t/p/w300#{@moviecreate['poster_path']}", alt: @moviecreate['title'], class: "mb-4 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out") %>
   </div>
-  <div class="lg:w-1/2">
-    <h1 class="text-3xl font-bold mb-4"><%= @moviecreate['title'] %></h1>
+  <div class="border-l border-gray-300 lg:pl-8 lg:w-1/2">
+    <h1 class="text-3xl text-rose-600 font-bold mb-4"><%= @moviecreate['title'] %></h1>
     <div class="mb-4">
-      <p class="text-lg"><strong>Original Title:</strong> <%= @moviecreate['original_title'] %></p>
-      <p class="text-lg"><strong>Release Date:</strong> <%= @moviecreate['release_date'] %></p>
-      <p class="text-lg"><strong>Popularity:</strong> <%= @moviecreate['popularity'] %></p>
+      <p class="text-lg"><strong>Original Title:</strong> <%= @moviecreate['original_title'] %></span></p>
+      <p class="text-lg"><strong>Release Date:</strong> <span class="text-base text-gray-400"><%= @moviecreate['release_date'] %></span></p>
+
+      <p class="text-lg"><strong>Popularity:</strong> <span class="text-base text-gray-400"><%= @moviecreate['popularity'] %></span></p>
     </div>
-    <p class="text-lg"><strong>Description:   </strong> <%= @moviecreate['overview'] %></p>
+    <p class="text-lg"><strong>Description:   </strong> <span class="text-base text-gray-400"><%= @moviecreate['overview'] %></span></p>
   </div>
 </div>
 <% else %>
-<div class="container mx-auto mt-8 flex flex-col lg:flex-row justify-center items-center space-x-8">
+<div class="container mx-auto flex flex-col lg:flex-row justify-center items-center space-x-8">
   <div class="lg:mr-10">
     <%= image_tag("https://image.tmdb.org/t/p/w300#{@movie.poster}", alt: @movie.title, class: "mb-4 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out") %>
   </div>
-  <div class="lg:w-1/2">
-    <h1 class="text-3xl font-bold mb-4"><%= @movie.title %></h1>
+  <div class="border-l border-gray-300 lg:pl-8 lg:w-1/2 mt-[-8rem]">
+    <h1 class="text-3xl text-rose-600 font-bold mb-4"><%= @movie.title %></h1>
     <div class="mb-4">
-      <p class="text-lg"><strong>Original Title:</strong> <%= @movie.original_title %></p>
-      <p class="text-lg"><strong>Popularity:</strong> <%= @movie.popularity %></p>
+      <p class="text-lg"><strong>Original Title:</strong> <%= @movie.original_title %></span></p>
+      <p class="text-lg"><strong>Popularity:</strong> <span class="text-base text-gray-400"><%= @movie.popularity %></span></p>
     </div>
-    <p class="text-lg"><strong>Description:   </strong> <%= @movie.overview %></p>
+    <p class="text-lg"><strong>Description:   </strong> <span class="text-base text-gray-400"><%= @movie.overview %></span></p>
   </div>
 </div>
 <% end %>
 
+<div class="flex justify-center mb-8">
+  <hr class="my-8 mx-4 border-b border-gray-300 w-3/4">
+</div>
+
+<div class="flex">
 <% if @movie.present? && @movie.reviews.present? %>
-<div class="container mx-auto mt-8 space-y-4">
-  <% @movie.reviews.each do |review| %>
-    <div class="bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition duration-300 ease-in-out p-4 flex items-start space-x-4">
-      <div class="flex-grow">
-        <p class="text-lg text-white"><%= review.description %></p>
-      </div>
-      <% if review.user == current_user %>
-        <div class="flex-none space-x-2">
-          <%= link_to 'Edit', edit_movie_review_path(movie_id: @movie.id, id: review.id), class: "text-blue-500 hover:text-blue-700" %>
-          <%= link_to 'Delete', movie_review_path(movie_id: @movie.id, id: review.id), method: :delete, data: { turbo_confirm: 'Are you sure?', "turbo-method": :delete }, class: "text-red-500 hover:text-red-700" %>
+  <div class="container ml-8 mt-8 w-3/6">
+    <% @movie.reviews.each do |review| %>
+      <div class="bg-gray-800 rounded-lg shadow-md mb-4">
+        <div class="flex items-center justify-between p-2">
+          <div class="text-sm text-white"><strong class="mr-2"><%= review.user.email.split('@').first %></strong> <%= review.description %></div>
+          
+          <% if review.user == current_user %>
+            <div>
+              <%= link_to 'Edit', edit_movie_review_path(movie_id: @movie.id, id: review.id), class: "text-blue-500 hover:text-blue-700" %>
+              <%= link_to 'Delete', movie_review_path(movie_id: @movie.id, id: review.id), method: :delete, data: { turbo_confirm: 'Are you sure?', "turbo-method": :delete }, class: "text-red-500 hover:text-red-700 ml-2" %>
+            </div>
+          <% end %>
         </div>
-      <% end %>
+      </div>
+    <% end %>
+    
+  </div>
+  <%else%>
+  <div class="container ml-8 mt-8 w-3/6 flex justify-center">
+          <div class="text-2xl  text-gray-400">No Reviews Yet</div>
+  </div>
+<% end %>
+ 
+<div class="ml-8 mt-[-3rem] rounded-lg shadow-md p-4 w-3/6">
+  <h1 class="text-3xl mb-8">Review</h1>
+  <%= simple_form_for Review.new, url: movie_reviews_path(movie_id: @movie&.mid || @moviecreate['id']), method: :post do |f| %>
+    <%= f.input :description, label: false, placeholder: 'Add a review', input_html: { class: "bg-gray-900 border border-gray-800 text-gray-200 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-500 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+    <div class="text-right"> <!-- This div aligns the submit button to the right -->
+      <%= f.submit 'Submit', class: "bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md mt-2 transition duration-300 ease-in-out" %>
     </div>
   <% end %>
 </div>
-<% end %>
 
-<div class="container mx-auto mt-8">
-  <%= simple_form_for Review.new, url: movie_reviews_path(movie_id: @movie&.mid || @moviecreate['id']), method: :post do |f| %>
-    <%= f.input :description, label: 'Review', placeholder: 'Add a comment', label_html: { class: 'text-lg font-semibold text-white' }, input_html: { class: "bg-gray-900 border border-gray-800 text-gray-200 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-500 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
-    <%= f.submit 'Post', class: "bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-md mt-2 transition duration-300 ease-in-out" %>
-  <% end %>
+
+
+<%# good or bad %>
+
+
+
 </div>
