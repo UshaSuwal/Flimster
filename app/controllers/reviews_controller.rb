@@ -4,10 +4,8 @@ class ReviewsController < ApplicationController
   def create
     @movie = fetch_movie(params[:movie_id])
 
-
-
     @moviecreate = Movie.find_by(mid: @movie['id']) || Movie.create(mid: @movie['id'], title: @movie['title'], original_title: @movie['original_title'], overview: @movie['overview'], poster: @movie['poster_path'], popularity: @movie['popularity'])
-    
+
     @reviewcreate = current_user.reviews.build(review_params.merge(movie_id: @moviecreate.id))
 
   if @reviewcreate.save
@@ -20,8 +18,25 @@ class ReviewsController < ApplicationController
   end
 
 
+  def edit
+    @movie = Movie.find(params[:movie_id])
+    @review = Review.find(params[:id])
+  end
 
+  def update
+    @movie = Movie.find(params[:movie_id])
+    @review = Review.find(params[:id])
+    @review.update(review_params)
 
+    redirect_to movie_path(id: @movie.mid)
+  end
+
+  def destroy
+    @movie = Movie.find(params[:movie_id])
+    @review = Review.find(params[:id])
+    @review.destroy
+    redirect_to movie_path(id: @movie.mid)
+  end
 
 
   private
