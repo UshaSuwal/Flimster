@@ -3,9 +3,9 @@ class MoviesController < ApplicationController
   # before_action :set_movie, only: [:new, :create]
   def index
     if params[:movie_title].present?
-      @movies = Tmdb::SearchService.execute(title: params[:movie_title])
+      @pagy, @movies = Tmdb::SearchService.execute(title: params[:movie_title], page: params[:page])
     else
-      @movies = Tmdb::AllService.execute()
+      @pagy, @movies = Tmdb::AllService.execute(page: params[:page])
     end
   end
 

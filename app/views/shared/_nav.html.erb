@@ -1,7 +1,7 @@
 <nav class="bg-black text-white fixed top-0 w-full z-50">
   <div class="max-w-screen-xl flex items-center justify-between mx-auto p-4">
     <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
-      <span class="text-2xl font-semibold whitespace-nowrap font-pacifico text-[35px] tracking-[2px] pl-12">Flimster</span>
+      <span class="text-5xl font-semibold whitespace-nowrap font-pacifico text-[35px] tracking-[2px] pl-12" style="font-family: 'Cinzel', serif;">Flimster</span></span>
     </a>
     <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200" aria-controls="navbar-default" aria-expanded="false">
         <span class="sr-only">Open main menu</span>
@@ -14,17 +14,31 @@
         <% if current_user %>
           
           <li>
-            <%= link_to "Edit Profile", edit_user_registration_path, class: "block px-2 font-body text-lg font-medium text-primary transition-colors group-hover:text-green" %>
-          </li>
+          <%= link_to edit_user_registration_path, style: "font-family: 'Cinzel', serif;", class: "flex items-center px-2 font-body text-lg font-medium text-primary transition-colors group-hover:text-green" do %>
+            <i class="fas fa-user-pen text-red-500 mr-2"></i> 
+            Edit Profile
+          <% end %>
+        </li>
+
+
           <li>
-            <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "block px-2 pr-14 font-body text-lg font-medium text-primary transition-colors group-hover:text-green", data: { turbo_confirm: 'Are you sure?', "turbo-method": :delete } %>
+            <%= link_to destroy_user_session_path, method: :delete, style: "font-family: 'Cinzel', serif;", class: "block px-2 pr-14 font-body text-lg font-medium text-primary transition-colors group-hover:text-green", data: { turbo_confirm: 'Are you sure?', "turbo-method": :delete } do %>
+            Sign Out
+            <i class="fa-solid fa-arrow-right-from-bracket text-red-500 ml-2"></i>
+            <%end%>
           </li>
         <% else %>
           <li>
-            <%= link_to "Sign Up", new_user_registration_path, class: "block px-2 font-body text-lg font-medium text-primary transition-colors group-hover:text-green" %>
+            <%= link_to new_user_registration_path, style: "font-family: 'Cinzel', serif;", class: "block px-2 font-body text-lg font-medium text-primary transition-colors group-hover:text-green" do%>
+            <i class="fa-solid fa-plus text-red-500 mr-2"></i>
+            Sign Up
+            <%end%>
           </li>
           <li>
-            <%= link_to "Log In", new_user_session_path, class: "block pr-14 px-2 font-body text-lg font-medium text-primary transition-colors group-hover:text-green" %>
+            <%= link_to new_user_session_path, style: "font-family: 'Cinzel', serif;", class: "block pr-14 px-2 font-body text-lg font-medium text-primary transition-colors group-hover:text-green" do %>
+            <i class="fa-solid fa-right-to-bracket text-red-500 mr-2"></i>
+            Log In
+            <%end%>
           </li>
         <% end %>
       </ul>

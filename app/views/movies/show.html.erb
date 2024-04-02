@@ -1,15 +1,27 @@
 <% if @moviecreate.present? %>
 <div class="container mx-auto flex flex-col lg:flex-row justify-center items-center space-x-8">
   <div class="lg:mr-10">
-    <%= image_tag("https://image.tmdb.org/t/p/w300#{@moviecreate['poster_path']}", alt: @moviecreate['title'], class: "mb-4 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out") %>
+    <%= image_tag("https://image.tmdb.org/t/p/w300#{@moviecreate['poster_path']}", alt: @moviecreate['title'], class: "mb-4 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out ") %>
   </div>
   <div class="border-l border-gray-300 lg:pl-8 lg:w-1/2">
-    <h1 class="text-3xl text-rose-600 font-bold mb-4"><%= @moviecreate['title'] %></h1>
+    <h1 class="text-3xl text-rose-600 font-bold mb-4", style= "font-family: 'Cinzel', serif;"><%= @moviecreate['title'] %></h1>
     <div class="mb-4">
       <p class="text-lg"><strong>Original Title:</strong> <%= @moviecreate['original_title'] %></span></p>
-      <p class="text-lg"><strong>Release Date:</strong> <span class="text-base text-gray-400"><%= @moviecreate['release_date'] %></span></p>
-
       <p class="text-lg"><strong>Popularity:</strong> <span class="text-base text-gray-400"><%= @moviecreate['popularity'] %></span></p>
+      <p class="text-lg"><strong>Genres:</strong> 
+        <% @moviecreate['genres'].each do |genre| %>
+          <span class="text-base text-gray-400"><%= genre['name'] %> | </span>
+        <% end %>
+      </p>
+
+      <p class="text-lg"><strong>Release Date:</strong> <span class="text-base text-gray-400"><%= @moviecreate['release_date'] %></span></p>
+      <p class="text-lg"><strong>Budget:</strong> <span class="text-base text-gray-400"><%= @moviecreate['budget'] %></span></p>
+      <p class="text-lg"><strong>Duration:</strong> <span class="text-base text-gray-400"><%= @moviecreate['runtime'] %></span></p>
+      <p class="text-lg"><strong>Status:</strong> <span class="text-base text-gray-400"><%= @moviecreate['status'] %></span></p>
+      <p class="text-lg"><strong>Average Vote:</strong> <span class="text-base text-gray-400"><%= @moviecreate['vote_average'] %></span></p>
+      <p class="text-lg"><strong>Total Vote:</strong> <span class="text-base text-gray-400"><%= @moviecreate['vote_count'] %></span></p>
+
+      
     </div>
     <p class="text-lg"><strong>Description:   </strong> <span class="text-base text-gray-400"><%= @moviecreate['overview'] %></span></p>
   </div>
@@ -17,21 +29,31 @@
 <% else %>
 <div class="container mx-auto flex flex-col lg:flex-row justify-center items-center space-x-8">
   <div class="lg:mr-10">
+    
     <%= image_tag("https://image.tmdb.org/t/p/w300#{@movie.poster}", alt: @movie.title, class: "mb-4 rounded-lg shadow-lg hover:shadow-xl transition duration-300 ease-in-out") %>
+
   </div>
-  <div class="border-l border-gray-300 lg:pl-8 lg:w-1/2 mt-[-8rem]">
-    <h1 class="text-3xl text-rose-600 font-bold mb-4"><%= @movie.title %></h1>
+  <div class="border-l border-gray-300 lg:pl-8 lg:w-1/2">
+    <h1 class="text-3xl text-rose-600 font-bold mb-4", style= "font-family: 'Cinzel', serif;"><%= @movie.title %></h1>
     <div class="mb-4">
       <p class="text-lg"><strong>Original Title:</strong> <%= @movie.original_title %></span></p>
       <p class="text-lg"><strong>Popularity:</strong> <span class="text-base text-gray-400"><%= @movie.popularity %></span></p>
+      <p class="text-lg"><strong>Release Date:</strong> <span class="text-base text-gray-400"><%= @movie.release_date %></span></p>
+      <p class="text-lg"><strong>Budget:</strong> <span class="text-base text-gray-400"><%= @movie.budget %></span></p>
+      <p class="text-lg"><strong>Duration:</strong> <span class="text-base text-gray-400"><%= @movie.duration %></span></p>
+      <p class="text-lg"><strong>Status:</strong> <span class="text-base text-gray-400"><%= @movie.status %></span></p>
+      <p class="text-lg"><strong>Average Vote:</strong> <span class="text-base text-gray-400"><%= @movie.vote_average %></span></p>
+      <p class="text-lg"><strong>Total Vote:</strong> <span class="text-base text-gray-400"><%= @movie.vote_count%></span></p>
+
+      
     </div>
     <p class="text-lg"><strong>Description:   </strong> <span class="text-base text-gray-400"><%= @movie.overview %></span></p>
   </div>
 </div>
-<% end %>
+<%end%>
 
 <div class="flex justify-center mb-8">
-  <hr class="my-8 mx-4 border-b border-gray-300 w-3/4">
+  <hr class="my-8 mx-4 border-b border-gray-300 w-full">
 </div>
 
 <div class="flex">
