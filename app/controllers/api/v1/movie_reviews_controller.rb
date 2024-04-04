@@ -6,7 +6,7 @@ class Api::V1::MovieReviewsController < ApplicationController
 
   def show
     puts "params::::::::::::::::::::::: #{params}"
-    movie = Movie.find_by(mid: params[:mid])
+  movie = Movie.find_by(mid: params[:mid])
     if movie.present?
       redirect_to api_v1_movie_review_path(movie.id)
     else
