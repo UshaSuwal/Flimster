@@ -1,11 +1,12 @@
 class Api::V1::ReviewsController < ApplicationController
     skip_before_action :verify_authenticity_token
+    before_action :authenticate_user_using_api_key
 
     def index
         movie = find_movie_from_db(params[:movie_id])
         if movie
             reviews = render_reviews(movie)
-            render json: { movie_id: movie.mid, review_count: reviews.count, reviews: reviews }
+            render json: { movie_id: movie.mid, review_count: reviews.count, reviews: reviews }, status: 200
         else
             tmdb_movie = fetch_tmdb(params[:movie_id])
 
@@ -22,12 +23,12 @@ class Api::V1::ReviewsController < ApplicationController
         movie = find_movie_from_db(params[:movie_id])
 
         if movie
-            reviews = Review.new(review_params.merge(user_id: User.first.id, movie_id: movie.id))
+            reviews = Review.create(review_params.merge(user_id:  @current_user.id, movie_id: movie.id))
             if reviews.save
                 reviews = render_reviews(movie)
-                render json: { movie_id: movie.mid, reviews: reviews }
+                render json: { movie_id: movie.mid, reviews: reviews }, status: 201
             else
-                render json: { error: "reviews not create" }
+                render json: { error: "reviews not create" }, status: 404
             end
         else
             tmdb_movie = fetch_tmdb(params[:movie_id])
@@ -36,12 +37,12 @@ class Api::V1::ReviewsController < ApplicationController
                 create_movie_from_tmdb(tmdb_movie)
 
                 movie = find_movie_from_db(params[:movie_id])
-                reviews = Review.new(review_params.merge(user_id: User.first.id, movie_id: movie.id))
+                reviews = Review.create(review_params.merge(user_id: @current_user.id, movie_id: movie.id))
                 if reviews.save
                     reviews = render_reviews(movie)
-                    render json: { movie_id: movie.mid, reviews: reviews }
+                    render json: { movie_id: movie.mid, reviews: reviews }, status: 201
                 else
-                    render json: { error: "reviews not create" }
+                    render json: { error: "reviews not create" }, status: 404
                 end
             elsif
                 tmdb_movie['status_code'] == 6 || tmdb_movie['status_code'] == 34
@@ -87,5 +88,14 @@ class Api::V1::ReviewsController < ApplicationController
 
     def find_movie_from_db(movieId)
       Movie.find_by(mid: movieId)
+    end
+
+    def authenticate_user_using_api_key
+      apikey = request.headers['x-api-key']
+      @curren = User.find_by(api_key: apikey)
+
+      unless @current_user
+        render json: { error: 'User not authenticated' }, status: :unauthorized
+      end
     end
   end

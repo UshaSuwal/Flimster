@@ -3,7 +3,6 @@ class ReviewsController < ApplicationController
 
   def create
     @movie = fetch_movie(params[:movie_id])
-    puts @movie
     @moviecreate = Movie.find_by(mid: @movie['id']) || Movie.create(mid: @movie['id'], title: @movie['title'], original_title: @movie['original_title'], overview: @movie['overview'], poster: @movie['poster_path'], status: @movie['status'], popularity: @movie['popularity'], vote_count: @movie['vote_count'], vote_average: @movie['vote_average'], budget: @movie['budget'], duration: @movie['runtime'], release_date: @movie['release_date'])
 
 
