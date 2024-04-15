@@ -1,6 +1,6 @@
 class Api::V1::ReviewsController < ApplicationController
     skip_before_action :verify_authenticity_token
-    before_action :authenticate_user_using_api_key
+    before_action :authenticate_user_using_api_key, only: :create
 
     def index
         movie = find_movie_from_db(params[:movie_id])
